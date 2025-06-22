@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AddVia.ai – Startup Consulting</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -16,27 +20,40 @@
     header {
       background-color: #0f172a;
       color: #fff;
-      padding: 4rem 2rem;
+      padding: 4rem 2rem 2rem 2rem;
       text-align: center;
     }
+    header img.logo {
+      max-width: 100px;
+      margin-bottom: 1rem;
+    }
     header h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       margin-bottom: 1rem;
     }
     header p {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #cbd5e1;
+      margin-bottom: 2rem;
+    }
+    .hero {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      margin: 2rem auto;
+      display: block;
     }
     main {
       max-width: 960px;
       margin: 0 auto;
-      padding: 3rem 2rem;
+      padding: 2rem;
     }
     section {
       margin-bottom: 3rem;
     }
     h2 {
-      font-size: 2rem;
+      font-size: 1.75rem;
       color: #1e293b;
       margin-bottom: 1rem;
     }
@@ -49,10 +66,10 @@
       margin-bottom: 0.75rem;
       padding: 1rem;
       border-radius: 8px;
-      font-size: 1.05rem;
+      font-size: 1rem;
     }
     p {
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: #334155;
     }
     a {
@@ -74,12 +91,25 @@
       color: #94a3b8;
       padding: 2rem;
     }
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.4rem;
+      }
+      ul li, p {
+        font-size: 0.95rem;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
+    <img src="logo.png" alt="AddVia.ai logo" class="logo">
     <h1>AddVia.ai</h1>
     <p>Startup Consulting for HR, Tech Hiring, SCM & AI Strategy</p>
+    <img src="hero-image.jpg" alt="Startup consulting hero illustration" class="hero">
   </header>
 
   <main>
@@ -104,7 +134,7 @@
     <section class="contact">
       <h2>Contact Us</h2>
       <p>
-        📧 Email: <a href="mailto:connect@addvia.ai">connect@addvia.ai</a>
+        📧 Email: <a href="mailto:contact@addvia.ai">contact@addvia.ai</a>
       </p>
     </section>
   </main>
