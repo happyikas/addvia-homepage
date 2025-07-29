@@ -626,6 +626,336 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* Schedule Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .schedule-modal {
+      background: var(--white);
+      border-radius: 20px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .schedule-modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .modal-header h3 {
+      font-size: 1.75rem;
+      margin: 0;
+    }
+
+    .modal-header p {
+      margin: 0.5rem 0 0 0;
+      opacity: 0.9;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close-modal:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    .close-modal svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--white);
+    }
+
+    .modal-body {
+      padding: 2rem;
+      overflow-y: auto;
+      max-height: calc(90vh - 120px);
+    }
+
+    .schedule-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    /* Calendar Styles */
+    .calendar-section h4,
+    .form-section h4 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      color: var(--gray-900);
+    }
+
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .calendar-nav button {
+      background: var(--gray-100);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .calendar-nav button:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .calendar-month {
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .calendar-day-header {
+      text-align: center;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      padding: 0.5rem;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      border: 2px solid var(--gray-100);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--white);
+    }
+
+    .calendar-day:hover:not(.disabled) {
+      border-color: var(--primary);
+      background: var(--gray-100);
+    }
+
+    .calendar-day.selected {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    .calendar-day.disabled {
+      color: var(--gray-300);
+      cursor: not-allowed;
+      background: var(--gray-50);
+    }
+
+    .calendar-day.today {
+      border-color: var(--secondary);
+      font-weight: 600;
+    }
+
+    /* Time Slots */
+    .time-slots {
+      margin-bottom: 1.5rem;
+    }
+
+    .time-slots h5 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: var(--gray-700);
+    }
+
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .time-slot {
+      padding: 0.75rem;
+      border: 2px solid var(--gray-100);
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--white);
+    }
+
+    .time-slot:hover:not(.disabled) {
+      border-color: var(--primary);
+      background: var(--gray-100);
+    }
+
+    .time-slot.selected {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    .time-slot.disabled {
+      color: var(--gray-300);
+      cursor: not-allowed;
+      background: var(--gray-50);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .schedule-button {
+      background: var(--primary);
+      color: var(--white);
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .schedule-button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .schedule-button:disabled {
+      background: var(--gray-300);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Success Message */
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .success-message.active {
+      display: block;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+    }
+
+    /* Responsive Schedule Modal */
+    @media (max-width: 768px) {
+      .schedule-container {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-grid {
+        gap: 0.25rem;
+      }
+
+      .time-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .modal-body {
+        padding: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -766,7 +1096,7 @@
           </div>
           <div class="contact-item">
             <span>🌐</span>
-            <a href="#">Schedule a Call</a>
+            <a href="#" onclick="openScheduler(); return false;">Schedule a Call</a>
           </div>
         </div>
       </div>
@@ -783,6 +1113,84 @@
       <p>© 2025 AddVia.ai. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Schedule Call Modal -->
+  <div class="modal-overlay" id="scheduleModal">
+    <div class="schedule-modal">
+      <div class="modal-header">
+        <h3>Schedule a Strategy Call</h3>
+        <p>Choose a convenient time to discuss your startup's growth</p>
+        <button class="close-modal" onclick="closeScheduler()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="schedule-container" id="scheduleForm">
+          <div class="calendar-section">
+            <h4>Select a Date</h4>
+            <div class="calendar-nav">
+              <button onclick="changeMonth(-1)">‹</button>
+              <span class="calendar-month" id="currentMonth">January 2025</span>
+              <button onclick="changeMonth(1)">›</button>
+            </div>
+            <div class="calendar-grid" id="calendar">
+              <!-- Calendar will be generated by JavaScript -->
+            </div>
+            <div class="time-slots">
+              <h5>Available Times</h5>
+              <div class="time-grid" id="timeSlots">
+                <!-- Time slots will be generated based on selected date -->
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <h4>Your Information</h4>
+            <form id="scheduleForm" onsubmit="submitSchedule(event)">
+              <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company">
+              </div>
+              <div class="form-group">
+                <label for="topic">What would you like to discuss? *</label>
+                <select id="topic" name="topic" required>
+                  <option value="">Select a topic</option>
+                  <option value="startup-strategy">Startup Strategy</option>
+                  <option value="talent-acquisition">Talent Acquisition</option>
+                  <option value="ai-integration">AI Integration</option>
+                  <option value="fundraising">Fundraising Support</option>
+                  <option value="supply-chain">Supply Chain Optimization</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="message">Additional Information</label>
+                <textarea id="message" name="message" placeholder="Tell us more about your needs..."></textarea>
+              </div>
+              <button type="submit" class="schedule-button" id="submitButton">
+                Schedule Call
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="success-message" id="successMessage">
+          <div class="success-icon">✓</div>
+          <h3>Call Scheduled Successfully!</h3>
+          <p>We've sent a confirmation email with your meeting details.</p>
+          <p style="margin-top: 1rem; color: var(--gray-500);">You'll receive a calendar invite shortly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Smooth scrolling
@@ -839,6 +1247,200 @@
     menuToggle.addEventListener('click', () => {
       navLinks.classList.toggle('mobile-active');
       menuToggle.classList.toggle('active');
+    });
+
+    // Schedule Modal Functions
+    let selectedDate = null;
+    let selectedTime = null;
+    let currentDate = new Date();
+
+    function openScheduler() {
+      document.getElementById('scheduleModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      renderCalendar();
+    }
+
+    function closeScheduler() {
+      document.getElementById('scheduleModal').classList.remove('active');
+      document.body.style.overflow = '';
+      resetScheduler();
+    }
+
+    function resetScheduler() {
+      selectedDate = null;
+      selectedTime = null;
+      document.getElementById('scheduleForm').reset();
+      document.getElementById('successMessage').classList.remove('active');
+      document.getElementById('scheduleForm').style.display = 'grid';
+      renderCalendar();
+    }
+
+    // Calendar Functions
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      
+      // Update month display
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                         'July', 'August', 'September', 'October', 'November', 'December'];
+      document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+      
+      // Clear calendar
+      const calendar = document.getElementById('calendar');
+      calendar.innerHTML = '';
+      
+      // Add day headers
+      const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      dayHeaders.forEach(day => {
+        const header = document.createElement('div');
+        header.className = 'calendar-day-header';
+        header.textContent = day;
+        calendar.appendChild(header);
+      });
+      
+      // Get first day of month and number of days
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const today = new Date();
+      
+      // Add empty cells for days before month starts
+      for (let i = 0; i < firstDay; i++) {
+        const emptyDay = document.createElement('div');
+        calendar.appendChild(emptyDay);
+      }
+      
+      // Add days of month
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+        dayElement.textContent = day;
+        
+        const dayDate = new Date(year, month, day);
+        const isToday = dayDate.toDateString() === today.toDateString();
+        const isPast = dayDate < today && !isToday;
+        const isWeekend = dayDate.getDay() === 0 || dayDate.getDay() === 6;
+        
+        if (isToday) dayElement.classList.add('today');
+        if (isPast) dayElement.classList.add('disabled');
+        if (selectedDate && dayDate.toDateString() === selectedDate.toDateString()) {
+          dayElement.classList.add('selected');
+        }
+        
+        if (!isPast && !isWeekend) {
+          dayElement.addEventListener('click', () => selectDate(dayDate));
+        } else if (isWeekend) {
+          dayElement.classList.add('disabled');
+        }
+        
+        calendar.appendChild(dayElement);
+      }
+    }
+
+    function changeMonth(direction) {
+      currentDate.setMonth(currentDate.getMonth() + direction);
+      renderCalendar();
+    }
+
+    function selectDate(date) {
+      selectedDate = date;
+      renderCalendar();
+      renderTimeSlots();
+    }
+
+    function renderTimeSlots() {
+      const timeSlotsContainer = document.getElementById('timeSlots');
+      timeSlotsContainer.innerHTML = '';
+      
+      // Available time slots (in 24-hour format for easy handling)
+      const timeSlots = [
+        '09:00 AM', '10:00 AM', '11:00 AM',
+        '02:00 PM', '03:00 PM', '04:00 PM'
+      ];
+      
+      timeSlots.forEach(time => {
+        const slot = document.createElement('div');
+        slot.className = 'time-slot';
+        slot.textContent = time;
+        
+        // Randomly disable some slots for demo
+        if (Math.random() > 0.7) {
+          slot.classList.add('disabled');
+        } else {
+          slot.addEventListener('click', () => selectTime(time, slot));
+        }
+        
+        if (selectedTime === time) {
+          slot.classList.add('selected');
+        }
+        
+        timeSlotsContainer.appendChild(slot);
+      });
+    }
+
+    function selectTime(time, element) {
+      // Remove previous selection
+      document.querySelectorAll('.time-slot').forEach(slot => {
+        slot.classList.remove('selected');
+      });
+      
+      selectedTime = time;
+      element.classList.add('selected');
+      
+      // Enable submit button
+      document.getElementById('submitButton').disabled = false;
+    }
+
+    function submitSchedule(event) {
+      event.preventDefault();
+      
+      if (!selectedDate || !selectedTime) {
+        alert('Please select a date and time for your call.');
+        return;
+      }
+      
+      // Get form data
+      const formData = new FormData(event.target);
+      const data = {
+        date: selectedDate.toLocaleDateString(),
+        time: selectedTime,
+        name: formData.get('name'),
+        email: formData.get('email'),
+        company: formData.get('company'),
+        topic: formData.get('topic'),
+        message: formData.get('message')
+      };
+      
+      // Simulate API call
+      document.getElementById('submitButton').textContent = 'Scheduling...';
+      document.getElementById('submitButton').disabled = true;
+      
+      setTimeout(() => {
+        // Show success message
+        document.getElementById('scheduleForm').style.display = 'none';
+        document.getElementById('successMessage').classList.add('active');
+        
+        // Log the data (in real implementation, send to server)
+        console.log('Scheduled call:', data);
+        
+        // Reset after delay
+        setTimeout(() => {
+          closeScheduler();
+        }, 5000);
+      }, 1500);
+    }
+
+    // Close modal on overlay click
+    document.getElementById('scheduleModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        closeScheduler();
+      }
+    });
+
+    // Close modal on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.getElementById('scheduleModal').classList.contains('active')) {
+        closeScheduler();
+      }
     });
   </script>
 </body>
