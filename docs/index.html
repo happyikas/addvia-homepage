@@ -3,136 +3,843 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AddVia.ai – Startup Consulting</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>AddVia.ai – AI-Powered Startup Consulting</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
     * {
       box-sizing: border-box;
-    }
-    body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom, #f7f9fc, #ffffff);
-      color: #222;
-      line-height: 1.6;
-    }
-    header {
-      background-color: #0f172a;
-      color: #fff;
-      padding: 4rem 2rem 2rem 2rem;
-      text-align: center;
-    }
-    header img.logo-decorated {
-      max-width: 280px;
-      margin: 0 auto 1.5rem auto;
-      display: block;
-      border-radius: 12px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-      background: #0f172a;
-      padding: 1rem;
-    }
-    header h1 {
-      display: none;
-    }
-    header p {
-      font-size: 1.1rem;
-      color: #cbd5e1;
-      margin-bottom: 2rem;
-    }
-    main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    section {
-      margin-bottom: 3rem;
-    }
-    h2 {
-      font-size: 1.75rem;
-      color: #1e293b;
-      margin-bottom: 1rem;
-    }
-    ul {
-      list-style: none;
       padding: 0;
     }
-    ul li {
-      background: #e2e8f0;
-      margin-bottom: 0.75rem;
-      padding: 1rem;
-      border-radius: 8px;
-      font-size: 1rem;
+
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --secondary: #10b981;
+      --dark: #0f172a;
+      --gray-900: #1e293b;
+      --gray-700: #334155;
+      --gray-500: #64748b;
+      --gray-300: #cbd5e1;
+      --gray-100: #f1f5f9;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }
-    p {
-      font-size: 1rem;
-      color: #334155;
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--gray-900);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    a {
-      color: #3b82f6;
+
+    /* Animated Background */
+    .bg-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      opacity: 0.05;
+      z-index: -1;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 1rem 0;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    nav.scrolled {
+      box-shadow: var(--shadow-md);
+      padding: 0.75rem 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark);
       text-decoration: none;
+      transition: color 0.3s ease;
     }
-    a:hover {
+
+    .nav-logo:hover {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--gray-700);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-cta:hover::after {
+      width: 0;
+    }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: var(--gray-700);
+      margin: 3px 0;
+      transition: 0.3s;
+    }
+
+    /* Header/Hero Section */
+    header {
+      background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+      color: var(--white);
+      padding: 8rem 2rem 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%239C92AC" fill-opacity="0.05"><path d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/></g></g></svg>') repeat;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-container {
+      margin-bottom: 2rem;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    header img.logo-decorated {
+      max-width: 300px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease;
+    }
+
+    header img.logo-decorated:hover {
+      transform: translateY(-5px);
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--gray-300);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 0.875rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--gray-300);
+    }
+
+    .btn-secondary:hover {
+      background: var(--white);
+      color: var(--dark);
+      border-color: var(--white);
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    /* Services Section */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .service-card:hover::before {
+      transform: translateX(0);
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gray-100);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--gray-900);
+    }
+
+    .service-card p {
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    /* Features List */
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 2rem;
+    }
+
+    .features-list li {
+      background: var(--gray-100);
+      margin-bottom: 1rem;
+      padding: 1.25rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .features-list li:hover {
+      background: var(--white);
+      border-color: var(--primary);
+      transform: translateX(5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* About Section */
+    .about-section {
+      background: var(--gray-100);
+      padding: 4rem;
+      border-radius: 20px;
+      margin: 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+      opacity: 0.05;
+    }
+
+    .about-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--gray-900);
+    }
+
+    .about-section p {
+      font-size: 1.125rem;
+      color: var(--gray-700);
+      line-height: 1.8;
+      max-width: 800px;
+    }
+
+    .team-badges {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: var(--white);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Contact Section */
+    .contact {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 3rem;
+      border-radius: 20px;
+      text-align: center;
+      color: var(--white);
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    }
+
+    .contact-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact h2 {
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.125rem;
+    }
+
+    .contact a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.3s ease;
+    }
+
+    .contact a:hover {
+      opacity: 0.8;
       text-decoration: underline;
     }
-    .contact {
-      background: #f1f5f9;
-      padding: 2rem;
-      border-radius: 10px;
-      text-align: center;
+
+    /* Section Headers */
+    section {
+      margin-bottom: 4rem;
     }
+
+    h2 {
+      font-size: 2.25rem;
+      color: var(--gray-900);
+      margin-bottom: 1rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 2px;
+    }
+
+    /* Footer */
     footer {
+      background: var(--dark);
+      color: var(--gray-300);
+      padding: 3rem 2rem;
       text-align: center;
-      font-size: 0.9rem;
-      color: #94a3b8;
-      padding: 2rem;
     }
-    @media (max-width: 600px) {
-      header h1 {
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-links a {
+      color: var(--gray-300);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
         display: none;
       }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-section {
+        padding: 2rem;
+      }
+
       h2 {
-        font-size: 1.4rem;
+        font-size: 1.75rem;
       }
-      ul li, p {
-        font-size: 0.95rem;
+
+      .contact-info {
+        flex-direction: column;
+        gap: 1rem;
       }
+    }
+
+    /* Scroll Reveal Animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
+  <div class="bg-gradient"></div>
+
+  <nav id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">AddVia.ai</a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#contact" class="nav-cta">Get Started</a>
+      </div>
+      <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
   <header>
-    <img src="ChatGPT Image Jun 23, 2025, 02_07_10 PM.png" alt="AddVia.ai logo" class="logo-decorated">
-    <p>Startup Consulting for HR, Tech Hiring, SCM & AI Strategy</p>
+    <div class="hero-content">
+      <div class="logo-container">
+        <img src="ChatGPT Image Jun 23, 2025, 02_07_10 PM.png" alt="AddVia.ai logo" class="logo-decorated">
+      </div>
+      <h1 class="hero-title">AI-Powered Startup Consulting</h1>
+      <p class="hero-subtitle">Transform your startup with expert guidance in HR, Tech Hiring, Supply Chain, and AI Strategy</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">
+          Start Your Journey
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#services" class="btn-secondary">Explore Services</a>
+      </div>
+    </div>
   </header>
 
   <main>
-    <section>
-      <h2>What We Do</h2>
-      <ul>
-        <li>✅ Early-stage startup guidance: from team building to market entry</li>
-        <li>✅ <a href="https://chat.uclone.net/uclone/messages/@mido-hr-expert" target="_blank">Talent recruitment and expert matching</a></li>
-        <li>✅ Investor outreach and customer discovery</li>
-        <li>✅ SCM and marketing/sales strategy optimization</li>
-        <li>✅ Hybrid solutions using AI agents + expert networks</li>
+    <section id="services">
+      <h2>Our Services</h2>
+      <p style="font-size: 1.125rem; color: var(--gray-700); margin-bottom: 2rem;">
+        Comprehensive consulting solutions powered by AI and deep industry expertise
+      </p>
+
+      <div class="services-grid reveal">
+        <div class="service-card">
+          <div class="service-icon">🚀</div>
+          <h3>Startup Strategy</h3>
+          <p>Early-stage guidance from team building to market entry, leveraging proven frameworks and industry insights</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">👥</div>
+          <h3>Talent Acquisition</h3>
+          <p>Expert recruitment and matching services to build world-class teams that drive innovation</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">💡</div>
+          <h3>AI Integration</h3>
+          <p>Strategic AI implementation to automate processes and unlock new growth opportunities</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">📊</div>
+          <h3>Investor Relations</h3>
+          <p>Comprehensive support for fundraising, from pitch deck creation to investor outreach</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">🔗</div>
+          <h3>Supply Chain Optimization</h3>
+          <p>End-to-end SCM solutions to streamline operations and reduce costs</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">📈</div>
+          <h3>Growth Marketing</h3>
+          <p>Data-driven marketing and sales strategies to accelerate customer acquisition</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="expertise">
+      <h2>What We Deliver</h2>
+      <ul class="features-list reveal">
+        <li>
+          <div class="feature-icon">✓</div>
+          <span>Early-stage startup guidance: from team building to market entry</span>
+        </li>
+        <li>
+          <div class="feature-icon">✓</div>
+          <span><a href="https://chat.uclone.net/uclone/messages/@mido-hr-expert" target="_blank" style="color: var(--primary); font-weight: 600;">Talent recruitment and expert matching</a> powered by AI</span>
+        </li>
+        <li>
+          <div class="feature-icon">✓</div>
+          <span>Strategic investor outreach and customer discovery programs</span>
+        </li>
+        <li>
+          <div class="feature-icon">✓</div>
+          <span>Supply chain and marketing/sales strategy optimization</span>
+        </li>
+        <li>
+          <div class="feature-icon">✓</div>
+          <span>Hybrid solutions combining AI agents with expert networks</span>
+        </li>
       </ul>
     </section>
 
-    <section>
-      <h2>Why AddVia.ai?</h2>
-      <p>
-        AddVia.ai was founded by professionals from Micron, SK Hynix, and Samsung Semiconductor. We blend deep domain expertise in HR, supply chain, and AI engineering to provide personalized, strategic guidance for startups ready to scale.
-      </p>
+    <section id="about" class="about-section reveal">
+      <div class="about-content">
+        <h2>Why Choose AddVia.ai?</h2>
+        <p>
+          Founded by industry veterans from global semiconductor leaders, AddVia.ai brings together decades of experience from Micron, SK Hynix, and Samsung. We combine deep domain expertise in HR, supply chain management, and AI engineering to deliver personalized, strategic guidance that helps startups scale efficiently and sustainably.
+        </p>
+        <div class="team-badges">
+          <span class="badge">Micron Technology</span>
+          <span class="badge">SK Hynix</span>
+          <span class="badge">Samsung Semiconductor</span>
+          <span class="badge">AI Engineering</span>
+          <span class="badge">Supply Chain Experts</span>
+        </div>
+      </div>
     </section>
 
-    <section class="contact">
-      <h2>Contact Us</h2>
-      <p>📧 Email: <a href="mailto:connect@addvia.ai">connect@addvia.ai</a></p>
+    <section id="contact" class="contact reveal">
+      <div class="contact-content">
+        <h2>Ready to Transform Your Startup?</h2>
+        <p style="font-size: 1.125rem; margin-bottom: 2rem;">Let's discuss how we can accelerate your growth</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <span>📧</span>
+            <a href="mailto:connect@addvia.ai">connect@addvia.ai</a>
+          </div>
+          <div class="contact-item">
+            <span>🌐</span>
+            <a href="#">Schedule a Call</a>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
-    © 2025 AddVia.ai. All rights reserved.
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">LinkedIn</a>
+      </div>
+      <p>© 2025 AddVia.ai. All rights reserved.</p>
+    </div>
   </footer>
+
+  <script>
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Navbar scroll effect
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll > 100) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+
+      lastScroll = currentScroll;
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    
+    function checkReveal() {
+      reveals.forEach(element => {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+
+        if (elementTop < windowHeight - elementVisible) {
+          element.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkReveal);
+    checkReveal(); // Check on load
+
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('mobile-active');
+      menuToggle.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>
