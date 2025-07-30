@@ -956,6 +956,97 @@
         padding: 1.5rem;
       }
     }
+
+    /* Sign Up Modal Styles */
+    .signup-modal {
+      background: var(--white);
+      border-radius: 20px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .signup-modal {
+      transform: scale(1);
+    }
+
+    .signup-form {
+      padding: 2rem;
+    }
+
+    .signup-benefits {
+      background: var(--gray-100);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .signup-benefits h4 {
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      color: var(--gray-900);
+    }
+
+    .benefit-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .benefit-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--gray-700);
+    }
+
+    .benefit-list li::before {
+      content: '✓';
+      color: var(--secondary);
+      font-weight: bold;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .signup-button {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      margin-top: 1rem;
+    }
+
+    .signup-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .signup-footer p {
+      color: var(--gray-500);
+      font-size: 0.875rem;
+    }
+
+    .signup-footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .signup-footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -968,6 +1059,7 @@
         <a href="#services">Services</a>
         <a href="#about">About</a>
         <a href="#expertise">Expertise</a>
+        <a href="#" onclick="openSignUp(); return false;">Sign Up</a>
         <a href="#contact" class="nav-cta">Get Started</a>
       </div>
       <div class="menu-toggle">
@@ -1188,6 +1280,97 @@
           <p>We've sent a confirmation email with your meeting details.</p>
           <p style="margin-top: 1rem; color: var(--gray-500);">You'll receive a calendar invite shortly.</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign Up Modal -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="signup-modal">
+      <div class="modal-header">
+        <h3>Join AddVia.ai</h3>
+        <p>Start your journey to smarter startup growth</p>
+        <button class="close-modal" onclick="closeSignUp()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="signup-form">
+        <div class="signup-benefits">
+          <h4>Member Benefits</h4>
+          <ul class="benefit-list">
+            <li>Access to exclusive startup resources</li>
+            <li>Weekly insights from industry experts</li>
+            <li>Priority scheduling for consultations</li>
+            <li>Member-only networking events</li>
+          </ul>
+        </div>
+        <form id="signupFormElement" onsubmit="submitSignUp(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="signup-firstname">First Name *</label>
+              <input type="text" id="signup-firstname" name="firstname" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-lastname">Last Name *</label>
+              <input type="text" id="signup-lastname" name="lastname" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email Address *</label>
+            <input type="email" id="signup-email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-company">Company/Organization</label>
+            <input type="text" id="signup-company" name="company">
+          </div>
+          <div class="form-group">
+            <label for="signup-role">Your Role *</label>
+            <select id="signup-role" name="role" required>
+              <option value="">Select your role</option>
+              <option value="founder">Founder/Co-Founder</option>
+              <option value="executive">Executive (CEO, CTO, etc.)</option>
+              <option value="manager">Manager/Director</option>
+              <option value="developer">Developer/Engineer</option>
+              <option value="investor">Investor</option>
+              <option value="consultant">Consultant</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="signup-interests">Areas of Interest (select all that apply)</label>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+              <label style="font-weight: normal; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" name="interests" value="ai-strategy"> AI Strategy & Implementation
+              </label>
+              <label style="font-weight: normal; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" name="interests" value="talent"> Talent Acquisition
+              </label>
+              <label style="font-weight: normal; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" name="interests" value="fundraising"> Fundraising
+              </label>
+              <label style="font-weight: normal; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" name="interests" value="supply-chain"> Supply Chain
+              </label>
+              <label style="font-weight: normal; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" name="interests" value="marketing"> Marketing & Growth
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="signup-button schedule-button" id="signupSubmitButton">
+            Create Account
+          </button>
+        </form>
+        <div class="signup-footer">
+          <p>By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="success-message" id="signupSuccessMessage" style="display: none;">
+        <div class="success-icon">✓</div>
+        <h3>Welcome to AddVia.ai!</h3>
+        <p>Check your email to verify your account and get started.</p>
+        <p style="margin-top: 1rem; color: var(--gray-500);">You'll receive our welcome package shortly.</p>
       </div>
     </div>
   </div>
@@ -1438,8 +1621,79 @@
 
     // Close modal on escape key
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && document.getElementById('scheduleModal').classList.contains('active')) {
-        closeScheduler();
+      if (e.key === 'Escape') {
+        if (document.getElementById('scheduleModal').classList.contains('active')) {
+          closeScheduler();
+        }
+        if (document.getElementById('signupModal').classList.contains('active')) {
+          closeSignUp();
+        }
+      }
+    });
+
+    // Sign Up Modal Functions
+    function openSignUp() {
+      document.getElementById('signupModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSignUp() {
+      document.getElementById('signupModal').classList.remove('active');
+      document.body.style.overflow = '';
+      resetSignUp();
+    }
+
+    function resetSignUp() {
+      document.getElementById('signupFormElement').reset();
+      document.getElementById('signupSuccessMessage').style.display = 'none';
+      document.querySelector('.signup-form').style.display = 'block';
+    }
+
+    function submitSignUp(event) {
+      event.preventDefault();
+      
+      // Get form data
+      const formData = new FormData(event.target);
+      const interests = formData.getAll('interests');
+      
+      const data = {
+        firstname: formData.get('firstname'),
+        lastname: formData.get('lastname'),
+        email: formData.get('email'),
+        company: formData.get('company'),
+        role: formData.get('role'),
+        interests: interests,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Simulate API call
+      document.getElementById('signupSubmitButton').textContent = 'Creating Account...';
+      document.getElementById('signupSubmitButton').disabled = true;
+      
+      setTimeout(() => {
+        // Show success message
+        document.querySelector('.signup-form').style.display = 'none';
+        document.getElementById('signupSuccessMessage').style.display = 'block';
+        
+        // Log the data (in real implementation, send to server)
+        console.log('New user signup:', data);
+        
+        // Store in localStorage for demo
+        const users = JSON.parse(localStorage.getItem('addvia_users') || '[]');
+        users.push(data);
+        localStorage.setItem('addvia_users', JSON.stringify(users));
+        
+        // Reset after delay
+        setTimeout(() => {
+          closeSignUp();
+        }, 5000);
+      }, 1500);
+    }
+
+    // Close sign up modal on overlay click
+    document.getElementById('signupModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        closeSignUp();
       }
     });
   </script>
