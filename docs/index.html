@@ -974,40 +974,83 @@
       transform: scale(1);
     }
 
+    .signup-modal .modal-header {
+      padding: 1.5rem;
+    }
+
+    .signup-modal .modal-header h3 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .signup-modal .modal-header p {
+      font-size: 0.875rem;
+      margin: 0.25rem 0 0 0;
+      opacity: 0.9;
+    }
+
     .signup-form {
-      padding: 2rem;
+      padding: 1.5rem;
+      overflow-y: auto;
+      max-height: calc(90vh - 100px);
     }
 
     .signup-benefits {
       background: var(--gray-100);
-      padding: 1.5rem;
+      padding: 1.25rem;
       border-radius: 12px;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .signup-benefits h4 {
-      font-size: 1.125rem;
-      margin-bottom: 1rem;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
       color: var(--gray-900);
     }
 
     .benefit-list {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
 
     .benefit-list li {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       color: var(--gray-700);
+      font-size: 0.875rem;
     }
 
     .benefit-list li::before {
       content: '✓';
       color: var(--secondary);
       font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .signup-form .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .signup-form .form-group label {
+      display: block;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.375rem;
+      font-size: 0.875rem;
+    }
+
+    .signup-form .form-group input,
+    .signup-form .form-group select {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+      font-family: inherit;
     }
 
     .form-row {
@@ -1019,18 +1062,21 @@
     .signup-button {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
     }
 
     .signup-footer {
       text-align: center;
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
       border-top: 1px solid var(--gray-200);
     }
 
     .signup-footer p {
       color: var(--gray-500);
-      font-size: 0.875rem;
+      font-size: 0.75rem;
+      margin: 0;
     }
 
     .signup-footer a {
@@ -1042,9 +1088,27 @@
       text-decoration: underline;
     }
 
+    /* Checkbox styling adjustments */
+    .signup-form input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.25rem;
+    }
+
+    .signup-form label[style] {
+      font-size: 0.875rem !important;
+    }
+
     @media (max-width: 600px) {
       .form-row {
         grid-template-columns: 1fr;
+      }
+      
+      .signup-modal .modal-header {
+        padding: 1.25rem;
+      }
+      
+      .signup-form {
+        padding: 1.25rem;
       }
     }
   </style>
