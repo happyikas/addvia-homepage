@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Email - AddVia.ai</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .verification-container {
+      background: white;
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+    }
+    h1 {
+      color: #1e293b;
+      margin-bottom: 1rem;
+    }
+    .message {
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+    .message.loading {
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+    .message.success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .message.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #3b82f6;
+      margin-bottom: 2rem;
+    }
+    a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="verification-container">
+    <div class="logo">AddVia.ai</div>
+    <h1>Email Verification</h1>
+    <div id="message" class="message loading">Verifying your email...</div>
+    <p><a href="/">Return to Home</a></p>
+  </div>
+  
+  <script>
+    // Get token from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    
+    if (!token) {
+      showMessage('Invalid verification link', 'error');
+    } else {
+      // Call your backend API
+      fetch(`https://addvia-backend-20e7efe3c8ce.herokuapp.com/api/verify-email?token=${token}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            showMessage('Email verified successfully! Redirecting...', 'success');
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 3000);
+          } else {
+            showMessage(data.error || 'Verification failed', 'error');
+          }
+        })
+        .catch(error => {
+          showMessage('Failed to verify email. Please try again.', 'error');
+        });
+    }
+    
+    function showMessage(text, type) {
+      const messageEl = document.getElementById('message');
+      messageEl.textContent = text;
+      messageEl.className = `message ${type}`;
+    }
+  </script>
+</body>
+</html>
