@@ -6,6 +6,17 @@
   <title>Verify Email - AddVia.ai</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --success: #10b981;
+      --error: #ef4444;
+      --gray-900: #1e293b;
+      --gray-700: #334155;
+      --gray-500: #64748b;
+      --white: #ffffff;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
       display: flex;
@@ -15,44 +26,84 @@
       margin: 0;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
+
     .verification-container {
-      background: white;
+      background: var(--white);
       padding: 3rem;
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
       text-align: center;
       max-width: 400px;
+      width: 90%;
     }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+    }
+
     h1 {
-      color: #1e293b;
+      color: var(--gray-900);
       margin-bottom: 1rem;
+      font-size: 1.875rem;
     }
+
     .message {
       padding: 1rem;
-      border-radius: 8px;
-      margin: 1rem 0;
+      border-radius: 12px;
+      margin: 1.5rem 0;
+      font-weight: 500;
     }
+
     .message.loading {
-      background: #e0e7ff;
-      color: #3730a3;
+      background: #dbeafe;
+      color: #1e40af;
     }
+
     .message.success {
       background: #d1fae5;
       color: #065f46;
     }
+
     .message.error {
       background: #fee2e2;
       color: #991b1b;
     }
-    .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #3b82f6;
-      margin-bottom: 2rem;
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+      vertical-align: middle;
     }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     a {
-      color: #3b82f6;
+      color: var(--primary);
       text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--primary-dark);
+    }
+
+    .back-link {
+      margin-top: 2rem;
+      display: inline-block;
     }
   </style>
 </head>
@@ -60,41 +111,61 @@
   <div class="verification-container">
     <div class="logo">AddVia.ai</div>
     <h1>Email Verification</h1>
-    <div id="message" class="message loading">Verifying your email...</div>
-    <p><a href="/">Return to Home</a></p>
+    <div id="message" class="message loading">
+      <span class="spinner"></span>
+      Verifying your email address...
+    </div>
+    <a href="/addvia-homepage" class="back-link">← Return to Home</a>
   </div>
   
   <script>
+    // Configuration
+    const API_BASE_URL = 'https://addvia-backend-20e7efe3c8ce.herokuapp.com/api';
+    
     // Get token from URL
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     
-    if (!token) {
-      showMessage('Invalid verification link', 'error');
-    } else {
-      // Call your backend API
-      fetch(`https://addvia-backend-20e7efe3c8ce.herokuapp.com/api/verify-email?token=${token}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.message) {
-            showMessage('Email verified successfully! Redirecting...', 'success');
-            setTimeout(() => {
-              window.location.href = '/';
-            }, 3000);
-          } else {
-            showMessage(data.error || 'Verification failed', 'error');
-          }
-        })
-        .catch(error => {
-          showMessage('Failed to verify email. Please try again.', 'error');
-        });
-    }
-    
+    // Show message helper
     function showMessage(text, type) {
       const messageEl = document.getElementById('message');
       messageEl.textContent = text;
       messageEl.className = `message ${type}`;
     }
+    
+    // Verify email
+    async function verifyEmail() {
+      if (!token) {
+        showMessage('Invalid verification link. Please check your email for the correct link.', 'error');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/verify-email?token=${token}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.message) {
+          showMessage('✓ Email verified successfully! Redirecting to home page...', 'success');
+          setTimeout(() => {
+            window.location.href = '/addvia-homepage';
+          }, 3000);
+        } else {
+          showMessage(data.error || 'Verification failed. The link may have expired.', 'error');
+        }
+      } catch (error) {
+        console.error('Verification error:', error);
+        showMessage('Network error. Please check your connection and try again.', 'error');
+      }
+    }
+    
+    // Start verification when page loads
+    verifyEmail();
   </script>
 </body>
 </html>
