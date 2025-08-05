@@ -1723,47 +1723,86 @@
       document.querySelector('.signup-form').style.display = 'block';
     }
 
-    function submitSignUp(event) {
-      event.preventDefault();
-      
-      // Get form data
-      const formData = new FormData(event.target);
-      const interests = formData.getAll('interests');
-      
-      const data = {
-        firstname: formData.get('firstname'),
-        lastname: formData.get('lastname'),
-        email: formData.get('email'),
-        password: formData.get('password'), // ADD THIS LINE
-        company: formData.get('company'),
-        role: formData.get('role'),
-        interests: interests,
-        timestamp: new Date().toISOString()
-      };
-      
-      // Simulate API call
-      document.getElementById('signupSubmitButton').textContent = 'Creating Account...';
-      document.getElementById('signupSubmitButton').disabled = true;
-      
-      setTimeout(() => {
-        // Show success message
-        document.querySelector('.signup-form').style.display = 'none';
-        document.getElementById('signupSuccessMessage').style.display = 'block';
-        
-        // Log the data (in real implementation, send to server)
-        console.log('New user signup:', data);
-        
-        // Store in localStorage for demo
-        const users = JSON.parse(localStorage.getItem('addvia_users') || '[]');
-        users.push(data);
-        localStorage.setItem('addvia_users', JSON.stringify(users));
-        
-        // Reset after delay
-        setTimeout(() => {
-          closeSignUp();
-        }, 5000);
-      }, 1500);
+function submitSignUp(event) {
+  event.preventDefault();
+  
+  // Get form data
+  const formData = new FormData(event.target);
+  const interests = formData.getAll('interests');
+  
+  const data = {
+    firstname: formData.get('firstname'),
+    lastname: formData.get('lastname'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+    company: formData.get('company'),
+    role: formData.get('role'),
+    interests: interests,
+    timestamp: new Date().toISOString()
+  };
+  
+  // Log the data for debugging
+  console.log('New user signup:', data);
+  
+  // Update button state
+  const submitButton = document.getElementById('signupSubmitButton');
+  submitButton.textContent = 'Creating Account...';
+  submitButton.disabled = true;
+  
+  // Send to backend API
+  fetch('https://addvia-backend-20e7efe3c8ce.herokuapp.com/api/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      // Map frontend names to backend expected names
+      firstName: data.firstname,
+      lastName: data.lastname,
+      email: data.email,
+      password: data.password,
+      company: data.company,
+      role: data.role,
+      interests: data.interests
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
+    console.log('API Response:', result);
+    
+    if (result.error) {
+      throw new Error(result.error);
     }
+    
+    // Show success message
+    document.querySelector('.signup-form').style.display = 'none';
+    document.getElementById('signupSuccessMessage').style.display = 'block';
+    
+    // Update success message if needed
+    const successMessage = document.getElementById('signupSuccessMessage');
+    if (successMessage) {
+      successMessage.innerHTML = `
+        <div class="success-icon">✓</div>
+        <h3>Welcome to AddVia.ai!</h3>
+        <p>${result.message || 'Account created successfully!'}</p>
+        <p style="margin-top: 1rem; color: var(--gray-500);">Please check your email to verify your account.</p>
+      `;
+    }
+    
+    // Close modal after 5 seconds
+    setTimeout(() => {
+      closeSignUp();
+    }, 5000);
+  })
+  .catch(error => {
+    console.error('Signup error:', error);
+    alert(error.message || 'Failed to create account. Please try again.');
+    
+    // Re-enable button
+    submitButton.textContent = 'Create Account';
+    submitButton.disabled = false;
+  });
+}
 
     // Close sign up modal on overlay click
     document.getElementById('signupModal').addEventListener('click', (e) => {
