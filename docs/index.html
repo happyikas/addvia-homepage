@@ -164,8 +164,6 @@
       <a href="#contact" class="nav-cta">Get Started</a>
     </div>
 
-
-
     
     /* Header/Hero Section */
     header {
@@ -1122,6 +1120,16 @@
         padding: 1.25rem;
       }
     }
+      /* Add these new styles here */
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .user-menu span {
+    font-weight: 500;
+  }
   </style>
 </head>
 <body>
@@ -1455,6 +1463,8 @@
         <h3>Welcome to AddVia.ai!</h3>
         <p>Check your email to verify your account and get started.</p>
         <p style="margin-top: 1rem; color: var(--gray-500);">You'll receive our welcome package shortly.</p>
+        <p>Already have an account? <a href="#" onclick="closeSignUp(); openLogin(); return false;">Login here</a></p>
+
       </div>
     </div>
   </div>
